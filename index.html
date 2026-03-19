@@ -1,0 +1,1770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOLEN Art Mirror | Professional Mirror Manufacturer</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Markdown Parser (for AI response formatting) -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"Lato"', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#1a1a1a',
+                        accent: '#d4af37', // Gold for UI elements (Buttons, Icons)
+                        brand: '#f97316',  // Orange for BOLEN Logo ONLY
+                        light: '#f9f9f9',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Lato', sans-serif;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+        }
+        /* Custom Scrollbar - Restored to Gray */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c1c1c1; /* Neutral Gray */
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+        .fade-in {
+            animation: fadeIn 0.4s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .cart-overlay {
+            background-color: rgba(0,0,0,0.5);
+        }
+        /* Hide all pages by default, only active class shows */
+        .page-view {
+            display: none;
+        }
+        .page-view.active {
+            display: block;
+        }
+        /* Language Dropdown Logic */
+        .lang-dropdown:hover .lang-menu {
+            display: block;
+        }
+        
+        /* Chat Widget Styles */
+        .chat-widget {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 50;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+        .chat-window {
+            width: 350px;
+            height: 500px;
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            border: 1px solid #f3f4f6;
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            transform-origin: bottom right;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .chat-window.hidden {
+            display: none; /* Helper for JS toggle */
+        }
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            background: #f9fafb;
+        }
+        .message {
+            margin-bottom: 0.75rem;
+            max-width: 80%;
+            padding: 0.75rem;
+            border-radius: 0.75rem;
+            font-size: 0.875rem;
+            line-height: 1.4;
+        }
+        .message.user {
+            background: #1a1a1a;
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 0;
+        }
+        .message.bot {
+            background: white;
+            border: 1px solid #e5e7eb;
+            color: #374151;
+            margin-right: auto;
+            border-bottom-left-radius: 0;
+        }
+        .typing-indicator span {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            background-color: #d1d5db;
+            border-radius: 50%;
+            animation: bounce 1.4s infinite ease-in-out both;
+            margin: 0 1px;
+        }
+        .typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
+        .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
+
+        /* Product Gallery Thumbnails */
+        .thumbnail.active {
+            border-color: #d4af37; /* Back to Gold */
+            opacity: 1;
+        }
+        .thumbnail {
+            border: 2px solid transparent;
+            opacity: 0.7;
+            transition: all 0.2s;
+        }
+        .thumbnail:hover {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="text-gray-800 bg-white antialiased relative flex flex-col min-h-screen">
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-40 bg-white/95 backdrop-blur shadow-sm border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center cursor-pointer" onclick="navigateTo('home')">
+                    <i class="fa-regular fa-gem text-accent text-2xl mr-2"></i>
+                    <!-- Logo uses BRAND (Orange) only -->
+                    <span class="font-serif text-2xl font-bold tracking-wide text-brand">BOLEN</span>
+                    <span class="text-xs text-gray-400 ml-2 tracking-widest hidden sm:inline-block">ART MIRROR</span>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-8 items-center">
+                    <button onclick="navigateTo('home')" class="nav-link text-gray-600 hover:text-accent transition font-medium" data-i18n="nav_home">Home</button>
+                    <button onclick="navigateTo('catalog')" class="nav-link text-gray-600 hover:text-accent transition font-medium" data-i18n="nav_catalog">Catalog</button>
+                    <button onclick="navigateTo('about')" class="nav-link text-gray-600 hover:text-accent transition font-medium" data-i18n="nav_about">About Factory</button>
+                    <button onclick="navigateTo('contact')" class="nav-link text-gray-600 hover:text-accent transition font-medium" data-i18n="nav_contact">Contact</button>
+                </div>
+
+                <!-- Icons & Language -->
+                <div class="flex items-center space-x-6">
+                    <!-- Language Switcher (Desktop) -->
+                    <div class="relative lang-dropdown hidden md:block pb-2 pt-2">
+                        <button class="flex items-center text-gray-600 hover:text-accent transition">
+                            <i class="fa-solid fa-globe mr-2"></i>
+                            <span id="current-lang-label" class="uppercase font-bold text-sm">EN</span>
+                            <i class="fa-solid fa-chevron-down text-xs ml-1"></i>
+                        </button>
+                        <div class="lang-menu hidden absolute right-0 mt-0 w-32 bg-white border border-gray-100 shadow-lg rounded-md py-2 z-50">
+                            <button onclick="changeLanguage('en')" class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-50 hover:text-accent transition">English</button>
+                            <button onclick="changeLanguage('zh')" class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-50 hover:text-accent transition">中文 (CN)</button>
+                            <button onclick="changeLanguage('fr')" class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-50 hover:text-accent transition">Français</button>
+                        </div>
+                    </div>
+
+                    <button class="text-gray-600 hover:text-accent transition relative" onclick="toggleCart()">
+                        <i class="fa-solid fa-clipboard-list text-xl"></i>
+                        <span id="cart-count" class="absolute -top-2 -right-2 bg-accent text-white text-xs font-bold h-5 w-5 flex items-center justify-center rounded-full opacity-0 transition-opacity duration-300">0</span>
+                    </button>
+                    <button class="md:hidden text-gray-600 text-xl" onclick="toggleMobileMenu()">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 absolute w-full shadow-lg z-50">
+            <div class="px-4 pt-2 pb-4 space-y-1">
+                <button onclick="navigateTo('home'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 text-gray-600 hover:bg-gray-50 hover:text-accent" data-i18n="nav_home">Home</button>
+                <button onclick="navigateTo('catalog'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 text-gray-600 hover:bg-gray-50 hover:text-accent" data-i18n="nav_catalog">Catalog</button>
+                <button onclick="navigateTo('about'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 text-gray-600 hover:bg-gray-50 hover:text-accent" data-i18n="nav_about">About Factory</button>
+                <button onclick="navigateTo('contact'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 text-gray-600 hover:bg-gray-50 hover:text-accent" data-i18n="nav_contact">Contact</button>
+                
+                <!-- Mobile Language Switch -->
+                <div class="border-t border-gray-100 mt-2 pt-2">
+                    <p class="px-3 text-xs text-gray-400 uppercase font-bold mb-1">Language</p>
+                    <div class="flex space-x-4 px-3">
+                        <button onclick="changeLanguage('en'); toggleMobileMenu()" class="text-sm font-bold text-gray-700 hover:text-accent">EN</button>
+                        <button onclick="changeLanguage('zh'); toggleMobileMenu()" class="text-sm font-bold text-gray-700 hover:text-accent">中文</button>
+                        <button onclick="changeLanguage('fr'); toggleMobileMenu()" class="text-sm font-bold text-gray-700 hover:text-accent">FR</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow">
+        
+        <!-- VIEW: HOME -->
+        <div id="view-home" class="page-view active fade-in">
+            <!-- Hero Section -->
+            <section class="relative h-[80vh] flex items-center justify-center overflow-hidden">
+                <div class="absolute inset-0 z-0">
+                    <!-- Using uploaded image -->
+                    <img src="新厂房.jpg" 
+                         onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=2000&auto=format&fit=crop';" 
+                         alt="BOLEN Factory Building" 
+                         class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black/40"></div>
+                </div>
+                <div class="relative z-10 text-center text-white px-4 max-w-3xl">
+                    <!-- Hero Text in White with Shadow -->
+                    <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight text-white drop-shadow-2xl filter" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.8);" data-i18n="hero_title">Reflecting Excellence Since 2005</h1>
+                    
+                    <p class="text-lg md:text-2xl mb-8 font-light opacity-95 drop-shadow-lg text-white" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.8);" data-i18n="hero_subtitle">
+                        Your Global OEM/ODM Partner for Premium Residential & Commercial Mirror Solutions.
+                    </p>
+                    
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <button onclick="navigateTo('catalog')" class="bg-white text-gray-900 px-8 py-4 font-serif font-semibold tracking-wide hover:bg-accent hover:text-white transition duration-300 shadow-xl" data-i18n="btn_view_catalog">
+                            View Catalog
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Features Strip -->
+            <section class="py-16 bg-gray-50">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center mb-12">
+                        <h2 class="text-3xl font-serif font-bold" data-i18n="why_choose_us">Why Choose BOLEN?</h2>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                        <div class="p-6 bg-white shadow-sm rounded-lg hover:shadow-md transition">
+                            <i class="fa-solid fa-pencil-ruler text-accent text-4xl mb-4"></i>
+                            <h3 class="text-xl font-bold mb-2" data-i18n="feat_odm_title">Custom Design (ODM)</h3>
+                            <p class="text-gray-500" data-i18n="feat_odm_desc">Professional R&D team providing customized services.</p>
+                        </div>
+                        <div class="p-6 bg-white shadow-sm rounded-lg hover:shadow-md transition">
+                            <i class="fa-solid fa-industry text-accent text-4xl mb-4"></i>
+                            <h3 class="text-xl font-bold mb-2" data-i18n="feat_scale_title">Scalable Production</h3>
+                            <p class="text-gray-500" data-i18n="feat_scale_desc">25,000 sqm factory with over 100,000 SKUs available.</p>
+                        </div>
+                        <div class="p-6 bg-white shadow-sm rounded-lg hover:shadow-md transition">
+                            <i class="fa-solid fa-certificate text-accent text-4xl mb-4"></i>
+                            <h3 class="text-xl font-bold mb-2" data-i18n="feat_cert_title">Global Certification</h3>
+                            <p class="text-gray-500" data-i18n="feat_cert_desc">CE, SAA, UL, CCC, IP44, IP66, RoHS certified.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Featured Collection Preview -->
+            <section class="py-20">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex justify-between items-end mb-10">
+                        <div>
+                            <h2 class="text-4xl font-bold mb-2 text-gray-900" data-i18n="feat_models_title">Featured Models</h2>
+                            <p class="text-gray-500" data-i18n="feat_models_subtitle">Best-selling designs available for immediate white-labeling.</p>
+                        </div>
+                        <button onclick="navigateTo('catalog')" class="hidden md:inline-block text-accent font-bold hover:underline"><span data-i18n="link_view_all">View All Products</span> <i class="fa-solid fa-arrow-right ml-2"></i></button>
+                    </div>
+                    <div id="home-product-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- VIEW: CATALOG -->
+        <div id="view-catalog" class="page-view fade-in">
+            <div class="bg-gray-900 py-16 text-center">
+                <h1 class="text-4xl md:text-5xl text-white font-serif font-bold" data-i18n="catalog_title">Product Catalog</h1>
+                <p class="text-gray-400 mt-4" data-i18n="catalog_subtitle">Browse our complete range of mirror solutions</p>
+            </div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                <!-- Filters -->
+                <div class="flex justify-center gap-4 mb-12 flex-wrap">
+                    <button onclick="filterProducts('all')" class="filter-btn active px-6 py-2 border border-gray-300 hover:border-accent hover:text-accent transition rounded-full text-sm uppercase tracking-wider bg-gray-900 text-white border-gray-900" data-category="all" data-i18n="cat_all">All</button>
+                    <button onclick="filterProducts('wall')" class="filter-btn px-6 py-2 border border-gray-300 hover:border-accent hover:text-accent transition rounded-full text-sm uppercase tracking-wider text-gray-600" data-category="wall" data-i18n="cat_wall">Wall</button>
+                    <button onclick="filterProducts('floor')" class="filter-btn px-6 py-2 border border-gray-300 hover:border-accent hover:text-accent transition rounded-full text-sm uppercase tracking-wider text-gray-600" data-category="floor" data-i18n="cat_floor">Floor</button>
+                    <button onclick="filterProducts('vanity')" class="filter-btn px-6 py-2 border border-gray-300 hover:border-accent hover:text-accent transition rounded-full text-sm uppercase tracking-wider text-gray-600" data-category="vanity" data-i18n="cat_vanity">Vanity / Smart</button>
+                </div>
+
+                <div id="catalog-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW: LOGIN -->
+        <div id="view-login" class="page-view fade-in">
+            <div class="min-h-[70vh] flex items-center justify-center bg-gray-50 py-12">
+                <div class="bg-white p-10 rounded-xl shadow-lg max-w-md w-full border border-gray-100 relative overflow-hidden">
+                    
+                    <!-- Decorative Background Elements -->
+                    <div class="absolute top-0 left-0 w-full h-2 bg-gray-900"></div>
+                    
+                    <!-- FORM: LOGIN -->
+                    <div id="auth-form-login" class="auth-section">
+                        <div class="text-center mb-8">
+                            <div class="inline-block p-3 bg-gray-50 rounded-full mb-4 border border-gray-100">
+                                <i class="fa-solid fa-id-card text-accent text-2xl"></i>
+                            </div>
+                            <h1 class="text-2xl font-serif font-bold text-gray-900">Staff Portal</h1>
+                            <!-- UPDATED: Login Title to Orange BRAND color -->
+                            <p class="text-gray-500 text-sm">Secure access for <span class="text-brand font-bold">BOLEN</span> employees</p>
+                        </div>
+                        <form onsubmit="event.preventDefault(); handleLogin();">
+                            <div class="mb-4">
+                                <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Employee ID</label>
+                                <input type="text" id="login-id" class="w-full p-3 bg-gray-50 border border-gray-200 rounded focus:outline-none focus:border-accent transition" placeholder="e.g. admin">
+                            </div>
+                            <div class="mb-6">
+                                <div class="flex justify-between mb-2">
+                                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide">Password</label>
+                                    <button type="button" onclick="switchAuth('forgot')" class="text-xs text-accent hover:underline">Forgot Password?</button>
+                                </div>
+                                <input type="password" id="login-pass" class="w-full p-3 bg-gray-50 border border-gray-200 rounded focus:outline-none focus:border-accent transition" placeholder="••••••••">
+                            </div>
+                            <button class="w-full bg-gray-900 text-white py-3 rounded font-bold hover:bg-accent transition shadow-lg mb-6">
+                                Access Dashboard
+                            </button>
+                            <div class="text-center border-t border-gray-100 pt-6">
+                                <p class="text-sm text-gray-500">New employee?</p>
+                                <button type="button" onclick="switchAuth('register')" class="text-gray-900 font-bold hover:text-accent transition text-sm mt-1">Create an Account</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- FORM: REGISTER -->
+                    <div id="auth-form-register" class="auth-section hidden">
+                        <div class="text-center mb-8">
+                            <h1 class="text-2xl font-serif font-bold text-gray-900">Create Account</h1>
+                            <p class="text-gray-500 text-sm">Register your employee credentials</p>
+                        </div>
+                        <form onsubmit="event.preventDefault(); handleRegister();">
+                            <div class="grid grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">First Name</label>
+                                    <input type="text" id="reg-name" class="w-full p-3 bg-gray-50 border border-gray-200 rounded focus:outline-none focus:border-accent transition" required>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Employee ID</label>
+                                    <input type="text" id="reg-id" class="w-full p-3 bg-gray-50 border border-gray-200 rounded focus:outline-none focus:border-accent transition" required>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Work Email</label>
+                                <input type="email" id="reg-email" class="w-full p-3 bg-gray-50 border border-gray-200 rounded focus:outline-none focus:border-accent transition" required>
+                            </div>
+                            <div class="mb-6">
+                                <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Password</label>
+                                <input type="password" id="reg-pass" class="w-full p-3 bg-gray-50 border border-gray-200 rounded focus:outline-none focus:border-accent transition" required>
+                            </div>
+                            <button class="w-full bg-accent text-white py-3 rounded font-bold hover:bg-yellow-600 transition shadow-lg mb-6">
+                                Register Profile
+                            </button>
+                            <div class="text-center">
+                                <button type="button" onclick="switchAuth('login')" class="text-gray-500 hover:text-gray-900 text-sm">
+                                    <i class="fa-solid fa-arrow-left mr-1"></i> Back to Login
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- FORM: FORGOT PASSWORD -->
+                    <div id="auth-form-forgot" class="auth-section hidden">
+                        <div class="text-center mb-8">
+                            <div class="inline-block p-3 bg-red-50 rounded-full mb-4 border border-red-100">
+                                <i class="fa-solid fa-lock-open text-red-400 text-2xl"></i>
+                            </div>
+                            <h1 class="text-2xl font-serif font-bold text-gray-900">Recovery</h1>
+                            <p class="text-gray-500 text-sm">Enter email to reset password</p>
+                        </div>
+                        <form onsubmit="event.preventDefault(); handleForgot();">
+                            <div class="mb-6">
+                                <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Work Email</label>
+                                <input type="email" id="forgot-email" class="w-full p-3 bg-gray-50 border border-gray-200 rounded focus:outline-none focus:border-accent transition" placeholder="name@bolenmirror.com" required>
+                            </div>
+                            <button class="w-full bg-gray-900 text-white py-3 rounded font-bold hover:bg-accent transition shadow-lg mb-6">
+                                Send Reset Link
+                            </button>
+                            <div class="text-center">
+                                <button type="button" onclick="switchAuth('login')" class="text-gray-500 hover:text-gray-900 text-sm">
+                                    Cancel
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW: DASHBOARD -->
+        <div id="view-dashboard" class="page-view fade-in">
+            <div class="bg-gray-900 text-white py-12">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+                    <div>
+                        <h1 class="text-3xl font-serif font-bold">Seller Dashboard</h1>
+                        <p class="text-gray-400">Manage product inventory and specifications</p>
+                    </div>
+                    <button onclick="handleLogout()" class="text-sm text-gray-400 hover:text-white border border-gray-700 px-4 py-2 rounded">Logout</button>
+                </div>
+            </div>
+            
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                <!-- Actions -->
+                <div class="mb-8 flex justify-end">
+                    <button onclick="toggleUploadForm()" class="bg-accent text-white px-6 py-3 rounded-lg font-bold hover:bg-yellow-600 transition shadow flex items-center gap-2">
+                        <i class="fa-solid fa-plus"></i> Add New Product
+                    </button>
+                </div>
+
+                <!-- Upload Form (Hidden by default) -->
+                <div id="upload-form" class="hidden bg-white p-8 rounded-xl shadow-lg border border-gray-200 mb-12">
+                    <h3 class="text-xl font-bold mb-6 border-b pb-4">Upload New Mirror</h3>
+                    <form onsubmit="event.preventDefault(); handleProductUpload();" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-bold mb-2">Product Name</label>
+                            <input id="prod-name" type="text" class="w-full p-3 bg-gray-50 border rounded" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold mb-2">Category</label>
+                            <select id="prod-cat" class="w-full p-3 bg-gray-50 border rounded">
+                                <option value="wall">Wall Mirror</option>
+                                <option value="floor">Floor Mirror</option>
+                                <option value="vanity">Vanity/Smart</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold mb-2">Upload Images (Local)</label>
+                            <input id="prod-img-files" type="file" multiple accept="image/*" class="w-full p-2 bg-gray-50 border rounded" required>
+                            <p class="text-xs text-gray-500 mt-1">Select multiple files. First one will be main image.</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold mb-2">MOQ (Units)</label>
+                            <input id="prod-moq" type="text" class="w-full p-3 bg-gray-50 border rounded" placeholder="e.g. 50 Units">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-bold mb-2">Description</label>
+                            <input id="prod-desc" type="text" class="w-full p-3 bg-gray-50 border rounded" required>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-bold mb-2">Technical Details</label>
+                            <textarea id="prod-details" rows="3" class="w-full p-3 bg-gray-50 border rounded"></textarea>
+                        </div>
+                        <div class="md:col-span-2 flex justify-end gap-4 mt-2">
+                            <button type="button" onclick="toggleUploadForm()" class="px-6 py-2 border rounded hover:bg-gray-50">Cancel</button>
+                            <button type="submit" class="px-6 py-2 bg-gray-900 text-white rounded hover:bg-accent font-bold">Upload Product</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Inventory List -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                    <table class="w-full text-left">
+                        <thead class="bg-gray-50 border-b border-gray-200">
+                            <tr>
+                                <th class="p-4 text-sm font-bold text-gray-600">Image</th>
+                                <th class="p-4 text-sm font-bold text-gray-600">Name</th>
+                                <th class="p-4 text-sm font-bold text-gray-600">Category</th>
+                                <th class="p-4 text-sm font-bold text-gray-600">ID</th>
+                                <th class="p-4 text-sm font-bold text-gray-600">Status</th>
+                                <th class="p-4 text-sm font-bold text-gray-600">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dashboard-table-body" class="divide-y divide-gray-100">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW: ABOUT -->
+        <div id="view-about" class="page-view fade-in">
+            <div class="bg-gray-100 py-16 text-center">
+                <h1 class="text-4xl md:text-5xl font-serif font-bold" data-i18n="about_title">About Our Factory</h1>
+            </div>
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-16">
+                    <div>
+                        <img src="https://images.unsplash.com/photo-1565514020176-db792f3b7936?q=80&w=1000&auto=format&fit=crop" alt="Factory Floor" class="rounded-lg shadow-xl w-full">
+                    </div>
+                    <div>
+                        <h2 class="text-3xl font-serif font-bold mb-6" data-i18n="legacy_title">A Legacy of Quality Since 2005</h2>
+                        <p class="text-gray-600 mb-4 leading-relaxed" data-i18n="legacy_text1">
+                            Founded in 2005, Jiaxing Chengtai Mirror Co., Ltd. is a professional R&D and manufacturing enterprise for LED mirrors, bathroom mirrors, and full-length mirrors. We operate a 25,000 sqm self-built factory in Jiaxing, Zhejiang, just 60km from Shanghai Port.
+                        </p>
+                        <p class="text-gray-600 mb-6 leading-relaxed" data-i18n="legacy_text2">
+                            We own registered brands BOLEN (EU/US), Niccy, and Thiamo. As a National High-tech Enterprise, we hold 65+ patents and operate a municipal-level R&D center. Our products are certified by CE, SAA, UL, CCC, IP44/IP66, RoHS, and ISO9001.
+                        </p>
+                        <ul class="space-y-3">
+                            <li class="flex items-center text-gray-700"><i class="fa-solid fa-check text-accent mr-3"></i> <span data-i18n="cert_iso">ISO 9001 Certified Facility</span></li>
+                            <li class="flex items-center text-gray-700"><i class="fa-solid fa-check text-accent mr-3"></i> <span data-i18n="cert_eco">120+ Export Countries</span></li>
+                            <li class="flex items-center text-gray-700"><i class="fa-solid fa-check text-accent mr-3"></i> <span data-i18n="cert_led">Trusted by IKEA & Walmart</span></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="bg-gray-900 text-white rounded-2xl p-12 text-center">
+                    <h2 class="text-3xl font-serif font-bold mb-8" data-i18n="process_title">Our Process</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                        <div>
+                            <div class="w-16 h-16 bg-accent rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">1</div>
+                            <h3 class="font-bold mb-2" data-i18n="proc_1_title">Consultation</h3>
+                            <p class="text-gray-400 text-sm" data-i18n="proc_1_desc">Design review & material selection.</p>
+                        </div>
+                        <div>
+                            <div class="w-16 h-16 bg-accent rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">2</div>
+                            <h3 class="font-bold mb-2" data-i18n="proc_2_title">Prototyping</h3>
+                            <p class="text-gray-400 text-sm" data-i18n="proc_2_desc">Sample production within 7-10 days.</p>
+                        </div>
+                        <div>
+                            <div class="w-16 h-16 bg-accent rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">3</div>
+                            <h3 class="font-bold mb-2" data-i18n="proc_3_title">Manufacturing</h3>
+                            <p class="text-gray-400 text-sm" data-i18n="proc_3_desc">Bulk production with QC at every stage.</p>
+                        </div>
+                        <div>
+                            <div class="w-16 h-16 bg-accent rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">4</div>
+                            <h3 class="font-bold mb-2" data-i18n="proc_4_title">Logistics</h3>
+                            <p class="text-gray-400 text-sm" data-i18n="proc_4_desc">Secure packaging & global shipping.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW: CONTACT -->
+        <div id="view-contact" class="page-view fade-in">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+                    <div>
+                        <h1 class="text-4xl font-serif font-bold mb-6" data-i18n="contact_title">Get in Touch</h1>
+                        <p class="text-gray-600 mb-8" data-i18n="contact_desc">
+                            Ready to start your project? Fill out the form below or contact our sales team directly. We typically respond within 24 hours.
+                        </p>
+                        
+                        <div class="space-y-6">
+                            <div class="flex items-start">
+                                <div class="bg-gray-100 p-4 rounded-full mr-4">
+                                    <i class="fa-solid fa-location-dot text-accent text-xl"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-gray-900" data-i18n="addr_title">Factory Address</h3>
+                                    <p class="text-gray-500">No. 123, Industrial Zone, Jiaxing City<br>Zhejiang Province, China</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="bg-gray-100 p-4 rounded-full mr-4">
+                                    <i class="fa-solid fa-envelope text-accent text-xl"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-gray-900" data-i18n="email_title">Email Us</h3>
+                                    <p class="text-gray-500">sales@bolenmirror.com</p>
+                                    <p class="text-gray-500">support@bolenmirror.com</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="bg-gray-100 p-4 rounded-full mr-4">
+                                    <i class="fa-solid fa-phone text-accent text-xl"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-gray-900" data-i18n="call_title">Call Us</h3>
+                                    <p class="text-gray-500">+86 573 8888 8888</p>
+                                    <p class="text-xs text-gray-400">Mon-Fri, 9am - 6pm CST</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-8 shadow-lg rounded-xl border border-gray-100">
+                        <h3 class="text-2xl font-bold mb-6" data-i18n="form_title">Send an Inquiry</h3>
+                        <form onsubmit="event.preventDefault(); showToast('Message sent!');" class="space-y-4">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1" data-i18n="lbl_fname">First Name</label>
+                                    <input type="text" class="w-full bg-gray-50 border border-gray-200 rounded p-3 focus:outline-none focus:border-accent" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1" data-i18n="lbl_lname">Last Name</label>
+                                    <input type="text" class="w-full bg-gray-50 border border-gray-200 rounded p-3 focus:outline-none focus:border-accent" required>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1" data-i18n="lbl_company">Company Name</label>
+                                <input type="text" class="w-full bg-gray-50 border border-gray-200 rounded p-3 focus:outline-none focus:border-accent">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1" data-i18n="lbl_email">Email Address</label>
+                                <input type="email" class="w-full bg-gray-50 border border-gray-200 rounded p-3 focus:outline-none focus:border-accent" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1" data-i18n="lbl_msg">Message</label>
+                                <textarea rows="4" class="w-full bg-gray-50 border border-gray-200 rounded p-3 focus:outline-none focus:border-accent"></textarea>
+                            </div>
+                            <button class="w-full bg-gray-900 text-white font-bold py-4 hover:bg-accent transition duration-300" data-i18n="btn_send_msg">
+                                Send Message
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW: PRODUCT DETAIL -->
+        <div id="view-product-detail" class="page-view fade-in">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                <button onclick="navigateTo('catalog')" class="mb-8 text-gray-500 hover:text-gray-900 flex items-center">
+                    <i class="fa-solid fa-arrow-left mr-2"></i> <span data-i18n="back_catalog">Back to Catalog</span>
+                </button>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12" id="detail-container">
+                    <!-- Dynamic Content -->
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-100 pt-12 pb-8 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div class="col-span-1 md:col-span-1">
+                    <!-- UPDATED: Footer Logo to Orange BRAND color -->
+                    <span class="font-serif text-2xl font-bold tracking-wide text-brand">BOLEN</span>
+                    <p class="text-gray-500 mt-4 text-sm" data-i18n="footer_desc">Trusted by IKEA, Walmart & Hilton since 2005.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4" data-i18n="footer_nav">Navigate</h4>
+                    <ul class="space-y-2 text-sm text-gray-600">
+                        <li><button onclick="navigateTo('home')" class="hover:text-accent" data-i18n="nav_home">Home</button></li>
+                        <li><button onclick="navigateTo('catalog')" class="hover:text-accent" data-i18n="nav_catalog">Catalog</button></li>
+                        <li><button onclick="navigateTo('about')" class="hover:text-accent" data-i18n="nav_about">About Us</button></li>
+                        <li><button onclick="navigateTo('contact')" class="hover:text-accent" data-i18n="nav_contact">Contact</button></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4" data-i18n="footer_legal">Legal</h4>
+                    <ul class="space-y-2 text-sm text-gray-600">
+                        <li><a href="#" class="hover:text-accent">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-accent">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4" data-i18n="footer_connect">Connect</h4>
+                    <div class="flex space-x-4 mb-4">
+                        <a href="#" class="text-gray-400 hover:text-accent text-xl"><i class="fa-brands fa-linkedin"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-accent text-xl"><i class="fa-brands fa-instagram"></i></a>
+                    </div>
+                    <!-- Added Staff Link -->
+                    <button onclick="navigateTo('login')" class="text-xs text-gray-400 border border-gray-200 px-2 py-1 rounded hover:text-gray-900 hover:border-gray-900 transition">
+                        <i class="fa-solid fa-lock mr-1"></i> Staff Portal
+                    </button>
+                </div>
+            </div>
+            <div class="border-t border-gray-100 pt-8 text-center text-gray-400 text-xs">
+                &copy; 2023 Jiaxing Chengtai Mirror Co., Ltd. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Quote Request Slide-over -->
+    <div id="cart-modal" class="fixed inset-0 z-50 hidden">
+        <div class="absolute inset-0 cart-overlay transition-opacity" onclick="toggleCart()"></div>
+        <div class="absolute right-0 top-0 h-full w-full max-w-md bg-white shadow-2xl flex flex-col transform transition-transform duration-300 translate-x-full" id="cart-panel">
+            <div class="p-6 border-b border-gray-100 flex justify-between items-center">
+                <h2 class="text-2xl font-serif font-bold" data-i18n="cart_title">Inquiry List</h2>
+                <button onclick="toggleCart()" class="text-gray-400 hover:text-red-500">
+                    <i class="fa-solid fa-xmark text-2xl"></i>
+                </button>
+            </div>
+            <div class="flex-1 overflow-y-auto p-6">
+                <div id="cart-items-container" class="space-y-6">
+                    <!-- Items injected here -->
+                </div>
+                <div class="text-center text-gray-500 mt-10 hidden" id="empty-cart-msg" data-i18n="cart_empty">
+                    Your inquiry list is empty.
+                </div>
+            </div>
+            <div class="p-6 border-t border-gray-100 bg-gray-50">
+                <div class="mb-4 text-sm text-gray-500" data-i18n="cart_help">
+                    Add items to this list to request a bulk quote or custom modification.
+                </div>
+                <button onclick="sendInquiry()" class="w-full bg-gray-900 text-white py-4 font-bold uppercase tracking-wider hover:bg-accent transition duration-300" data-i18n="btn_req_email">
+                    Request Quote via Email
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white px-6 py-3 rounded-lg shadow-lg opacity-0 transition-opacity duration-300 pointer-events-none z-50 flex items-center gap-2">
+        <i class="fa-solid fa-check-circle text-accent"></i>
+        <span id="toast-message">Added to list</span>
+    </div>
+
+    <!-- Chat Widget -->
+    <div class="chat-widget">
+        <!-- Chat Window -->
+        <div id="chat-window" class="chat-window hidden scale-95 opacity-0">
+            <!-- Header -->
+            <div class="bg-gray-900 text-white p-4 flex justify-between items-center cursor-pointer" onclick="toggleChat()">
+                <div class="flex items-center gap-3">
+                    <div class="relative">
+                        <div class="h-8 w-8 bg-white/10 rounded-full flex items-center justify-center">
+                            <i class="fa-solid fa-robot text-accent text-sm"></i>
+                        </div>
+                        <div class="absolute bottom-0 right-0 h-2.5 w-2.5 bg-green-500 rounded-full border-2 border-gray-900"></div>
+                    </div>
+                    <div>
+                        <!-- UPDATED: Chat Widget Title to Orange BRAND color -->
+                        <h4 class="font-bold text-sm"><span class="text-brand">BOLEN</span> Assistant</h4>
+                        <p class="text-xs text-gray-400">Online | Powered by Gemini</p>
+                    </div>
+                </div>
+                <i class="fa-solid fa-chevron-down text-gray-400"></i>
+            </div>
+            
+            <!-- Messages -->
+            <div id="chat-messages" class="chat-messages">
+                <div class="message bot">
+                    Hello! I'm your factory assistant. Ask me about our 100,000+ SKUs, certifications, or OEM capabilities.
+                </div>
+            </div>
+            
+            <!-- Input -->
+            <div class="p-4 bg-white border-t border-gray-100">
+                <form onsubmit="event.preventDefault(); sendChatMessage();" class="flex gap-2">
+                    <input type="text" id="chat-input" class="flex-1 bg-gray-50 border border-gray-200 rounded-full px-4 py-2 text-sm focus:outline-none focus:border-accent" placeholder="Type a message...">
+                    <button type="submit" class="h-9 w-9 bg-accent text-white rounded-full flex items-center justify-center hover:bg-yellow-600 transition">
+                        <i class="fa-solid fa-paper-plane text-xs"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Chat Toggle Button -->
+        <button onclick="toggleChat()" id="chat-toggle-btn" class="h-14 w-14 bg-gray-900 text-white rounded-full shadow-2xl flex items-center justify-center hover:bg-accent transition transform hover:scale-105">
+            <i class="fa-solid fa-comment-dots text-2xl"></i>
+        </button>
+    </div>
+
+    <!-- Javascript Logic -->
+    <script>
+        // API Configuration
+        const apiKey = ""; // Set by environment
+
+        // Global State
+        let cart = [];
+        let currentLang = 'en';
+        const langMap = {
+            en: "English",
+            zh: "Chinese (Simplified)",
+            fr: "French"
+        };
+
+        // Auth State (In-memory database for demo)
+        let staffUsers = [
+            { id: 'admin', pass: 'admin', name: 'Administrator', email: 'admin@bolen.com' }
+        ];
+
+        // Translation Dictionary
+        const translations = {
+            en: {
+                nav_home: "Home",
+                nav_catalog: "Catalog",
+                nav_customizer: "Customizer",
+                nav_about: "About Factory",
+                nav_contact: "Contact",
+                hero_title: "Reflecting Excellence Since 2005",
+                hero_subtitle: "Your Global OEM/ODM Partner for Premium Residential & Commercial Mirror Solutions.",
+                btn_view_catalog: "View Catalog",
+                btn_get_quote: "Get a Quote",
+                btn_start_custom: "Start Customizing",
+                why_choose_us: "Why Choose BOLEN?",
+                feat_odm_title: "Custom Design (ODM)",
+                feat_odm_desc: "Professional R&D team providing customized services.",
+                feat_scale_title: "Scalable Production",
+                feat_scale_desc: "25,000 sqm factory with over 100,000 SKUs available.",
+                feat_cert_title: "Global Certification",
+                feat_cert_desc: "CE, SAA, UL, CCC, IP44, IP66, RoHS certified.",
+                feat_models_title: "Featured Models",
+                feat_models_subtitle: "Best-selling designs available for immediate white-labeling.",
+                link_view_all: "View All Products",
+                catalog_title: "Product Catalog",
+                catalog_subtitle: "Browse our complete range of mirror solutions",
+                cat_all: "All",
+                cat_wall: "Wall",
+                cat_floor: "Floor",
+                cat_vanity: "Vanity / Smart",
+                about_title: "About Our Factory",
+                legacy_title: "A Legacy of Quality Since 2005",
+                legacy_text1: "Founded in 2005, Jiaxing Chengtai Mirror Co., Ltd. is a professional R&D and manufacturing enterprise for LED mirrors, bathroom mirrors, and full-length mirrors. We operate a 25,000 sqm self-built factory in Jiaxing, Zhejiang, just 60km from Shanghai Port.",
+                legacy_text2: "We own registered brands BOLEN (EU/US), Niccy, and Thiamo. As a National High-tech Enterprise, we hold 65+ patents and operate a municipal-level R&D center. Our products are certified by CE, SAA, UL, CCC, IP44/IP66, RoHS, and ISO9001.",
+                cert_iso: "ISO 9001 Certified Facility",
+                cert_eco: "120+ Export Countries",
+                cert_led: "Trusted by IKEA & Walmart",
+                process_title: "Our Process",
+                proc_1_title: "Consultation",
+                proc_1_desc: "Design review & material selection.",
+                proc_2_title: "Prototyping",
+                proc_2_desc: "Sample production within 7-10 days.",
+                proc_3_title: "Manufacturing",
+                proc_3_desc: "Bulk production with QC at every stage.",
+                proc_4_title: "Logistics",
+                proc_4_desc: "Secure packaging & global shipping.",
+                contact_title: "Get in Touch",
+                contact_desc: "Ready to start your project? Fill out the form below or contact our sales team directly. We typically respond within 24 hours.",
+                addr_title: "Factory Address",
+                email_title: "Email Us",
+                call_title: "Call Us",
+                form_title: "Send an Inquiry",
+                lbl_fname: "First Name",
+                lbl_lname: "Last Name",
+                lbl_company: "Company Name",
+                lbl_email: "Email Address",
+                lbl_msg: "Message",
+                btn_send_msg: "Send Message",
+                back_catalog: "Back to Catalog",
+                footer_desc: "Trusted by IKEA, Walmart & Hilton since 2005.",
+                footer_nav: "Navigate",
+                footer_legal: "Legal",
+                footer_connect: "Connect",
+                cart_title: "Inquiry List",
+                cart_empty: "Your inquiry list is empty.",
+                cart_help: "Add items to this list to request a bulk quote or custom modification.",
+                btn_req_email: "Request Quote via Email",
+                // Customizer Translations
+                cust_title: "Customizer Studio",
+                cust_subtitle: "Build your perfect mirror specifications for manufacturing.",
+                step_dims: "1. Dimensions",
+                lbl_width: "Width (cm)",
+                lbl_height: "Height (cm)",
+                step_shape: "2. Shape",
+                shape_rect: "Rectangle",
+                shape_round: "Round",
+                shape_capsule: "Capsule",
+                shape_oval: "Ovale",
+                step_frame: "3. Matériau du Cadre",
+                frame_none: "Sans Cadre",
+                frame_alum: "Aluminium (Noir)",
+                frame_brass: "Laiton Brossé",
+                frame_wood: "Bois Massif",
+                step_func: "4. Fonctions Intelligentes",
+                func_bt: "Audio Bluetooth",
+                func_fog: "Système Anti-buée",
+                func_rgb: "Rétroéclairage RGB",
+                func_disp: "Affichage Heure/Temp",
+                func_gest: "Contrôle Gestuel",
+                btn_add_config: "Ajouter la Configuration à la Demande",
+                // Dynamic
+                lbl_view_details: "Voir Détails",
+                lbl_model_id: "ID Modèle",
+                lbl_dims: "Dimensions",
+                lbl_moq: "Qté Min. Commande",
+                lbl_mat_feat: "Matériaux & Caractéristiques :",
+                btn_add_list: "Ajouter à la Liste",
+                btn_ask_q: "Poser une Question",
+                toast_added: "Added to list"
+            },
+            zh: {
+                nav_home: "首页",
+                nav_catalog: "产品目录",
+                nav_customizer: "定制工作室",
+                nav_about: "工厂简介",
+                nav_contact: "联系我们",
+                hero_title: "映照卓越品质 - 始于2005",
+                hero_subtitle: "您的高端住宅与商业镜子解决方案全球 OEM/ODM 合作伙伴。",
+                btn_view_catalog: "查看目录",
+                btn_get_quote: "获取报价",
+                btn_start_custom: "开始定制",
+                why_choose_us: "为什么选择 BOLEN?",
+                feat_odm_title: "定制设计 (ODM)",
+                feat_odm_desc: "专业的研发团队，提供定制服务。",
+                feat_scale_title: "规模化生产",
+                feat_scale_desc: "25,000平方米厂房，10万+ SKU产品选项。",
+                feat_cert_title: "全球认证",
+                feat_cert_desc: "通过CE, SAA, UL, CCC, IP44, IP66, RoHS等安全与环保认证。",
+                feat_models_title: "精选型号",
+                feat_models_subtitle: "最畅销设计，可直接贴牌生产。",
+                link_view_all: "查看所有产品",
+                catalog_title: "产品目录",
+                catalog_subtitle: "浏览我们完整的镜子解决方案",
+                cat_all: "全部",
+                cat_wall: "壁挂镜",
+                cat_floor: "落地镜",
+                cat_vanity: "浴室/智能镜",
+                about_title: "关于我们工厂",
+                legacy_title: "品质传承",
+                legacy_text1: "嘉兴市成泰镜业有限公司创建于2005年，是一家LED灯镜，浴室镜和全身镜的专业的镜子产品研发及生产企业，有25000平方米的自建厂房，位于浙江省嘉兴市，距离上海港仅60公里。",
+                legacy_text2: "成泰镜业拥有在欧洲、美国注册品牌：BOLEN，在美国注册品牌：Niccy, Thiamo。截止目前在中国拥有65项发明专利、实用新型专利；拥有市级研发中心与实验室，被认证为中国国家级高新技术企业，产品通过CE，SAA，UL，CCC,IP44，IP66，RoHS等安全与环保认证，也通过ISO9001等质量体系认证。",
+                cert_iso: "ISO 9001 质量体系认证",
+                cert_eco: "出口120多个国家和地区",
+                cert_led: "宜家、沃尔玛、希尔顿信赖伙伴",
+                process_title: "生产流程",
+                proc_1_title: "咨询",
+                proc_1_desc: "设计评审与材料选择。",
+                proc_2_title: "打样",
+                proc_2_desc: "7-10天内完成样品制作。",
+                proc_3_title: "制造",
+                proc_3_desc: "每个阶段均有质量控制的批量生产。",
+                proc_4_title: "物流",
+                proc_4_desc: "安全包装与全球运输。",
+                contact_title: "联系我们",
+                contact_desc: "准备好开始您的项目了吗？请填写下面的表格或直接联系我们的销售团队。通常在24小时内回复。",
+                addr_title: "工厂地址",
+                email_title: "电子邮箱",
+                call_title: "致电我们",
+                form_title: "发送询盘",
+                lbl_fname: "名字",
+                lbl_lname: "姓氏",
+                lbl_company: "公司名称",
+                lbl_email: "邮箱地址",
+                lbl_msg: "留言内容",
+                btn_send_msg: "发送留言",
+                back_catalog: "返回目录",
+                footer_desc: "自2005年以来，宜家、沃尔玛和希尔顿的信赖合作伙伴。",
+                footer_nav: "导航",
+                footer_legal: "法律条款",
+                footer_connect: "关注我们",
+                cart_title: "询价单",
+                cart_empty: "您的询价单为空。",
+                cart_help: "将商品添加到此列表以申请批量报价或定制修改。",
+                btn_req_email: "通过邮件询价",
+                // Customizer Translations
+                cust_title: "定制工作室",
+                cust_subtitle: "为生产打造您的完美镜子规格。",
+                step_dims: "1. 尺寸",
+                lbl_width: "宽度 (cm)",
+                lbl_height: "高度 (cm)",
+                step_shape: "2. 形状",
+                shape_rect: "矩形",
+                shape_round: "圆形",
+                shape_capsule: "胶囊形",
+                shape_oval: "椭圆形",
+                step_frame: "3. 边框材质",
+                frame_none: "无框",
+                frame_alum: "铝合金 (黑色)",
+                frame_brass: "拉丝黄铜",
+                frame_wood: "实木",
+                step_func: "4. 智能功能",
+                func_bt: "蓝牙音响",
+                func_fog: "防雾功能",
+                func_rgb: "RGB 背光",
+                func_disp: "时间/温度显示",
+                func_gest: "手势控制",
+                btn_add_config: "添加到询价单",
+                // Dynamic
+                lbl_view_details: "查看详情",
+                lbl_model_id: "型号 ID",
+                lbl_dims: "尺寸",
+                lbl_moq: "最小起订量",
+                lbl_mat_feat: "材质与功能：",
+                btn_add_list: "加入询价单",
+                btn_ask_q: "咨询问题",
+                toast_added: "已加入列表"
+            },
+            fr: {
+                nav_home: "Accueil",
+                nav_catalog: "Catalogue",
+                nav_customizer: "Personnaliser",
+                nav_about: "L'Usine",
+                nav_contact: "Contact",
+                hero_title: "Le Reflet de l'Excellence Depuis 2005",
+                hero_subtitle: "Votre Partenaire Mondial OEM/ODM pour des Solutions de Miroirs Résidentiels et Commerciaux Haut de Gamme.",
+                btn_view_catalog: "Voir le Catalogue",
+                btn_get_quote: "Obtenir un Devis",
+                btn_start_custom: "Commencer à Personnaliser",
+                why_choose_us: "Pourquoi Choisir BOLEN ?",
+                feat_odm_title: "Design Personnalisé (ODM)",
+                feat_odm_desc: "Équipe R&D professionnelle offrant des services sur mesure.",
+                feat_scale_title: "Production Évolutive",
+                feat_scale_desc: "Usine de 25 000 m² avec plus de 100 000 SKU disponibles.",
+                feat_cert_title: "Certification Mondiale",
+                feat_cert_desc: "Certifié CE, SAA, UL, CCC, IP44, IP66, RoHS.",
+                feat_models_title: "Modèles en Vedette",
+                feat_models_subtitle: "Designs les plus vendus disponibles pour un étiquetage privé immédiat.",
+                link_view_all: "Voir Tous les Produits",
+                catalog_title: "Catalogue Produits",
+                catalog_subtitle: "Parcourez notre gamme complète de solutions de miroirs",
+                cat_all: "Tous",
+                cat_wall: "Murale",
+                cat_floor: "Sur Pied",
+                cat_vanity: "Salle de Bain / Smart",
+                about_title: "À Propos de Notre Usine",
+                legacy_title: "Un Héritage de Qualité Depuis 2005",
+                legacy_text1: "Fondée en 2005, Jiaxing Chengtai Mirror Co., Ltd. est une entreprise professionnelle de R&D et de fabrication de miroirs LED, de salle de bain et de miroirs sur pied. Nous exploitons une usine de 25 000 m² à Jiaxing, Zhejiang, à seulement 60 km du port de Shanghai.",
+                legacy_text2: "Nous possédons les marques déposées BOLEN (UE/US), Niccy et Thiamo. En tant qu'entreprise nationale de haute technologie, nous détenons plus de 65 brevets et exploitons un centre de R&D municipal. Nos produits sont certifiés CE, SAA, UL, CCC, IP44/IP66, RoHS et ISO9001.",
+                cert_iso: "Installation Certifiée ISO 9001",
+                cert_eco: "Exportation vers 120+ Pays",
+                cert_led: "Approuvé par IKEA, Walmart & Hilton",
+                process_title: "Notre Processus",
+                proc_1_title: "Consultation",
+                proc_1_desc: "Revue de conception et sélection des matériaux.",
+                proc_2_title: "Prototypage",
+                proc_2_desc: "Production d'échantillons sous 7 à 10 jours.",
+                proc_3_title: "Fabrication",
+                proc_3_desc: "Production en vrac avec contrôle qualité à chaque étape.",
+                proc_4_title: "Logistique",
+                proc_4_desc: "Emballage sécurisé et expédition mondiale.",
+                contact_title: "Contactez-nous",
+                contact_desc: "Prêt à démarrer votre projet ? Remplissez le formulaire ci-dessous ou contactez directement notre équipe commerciale.",
+                addr_title: "Adresse de l'Usine",
+                email_title: "Envoyez-nous un Email",
+                call_title: "Appelez-nous",
+                form_title: "Envoyer une Demande",
+                lbl_fname: "Prénom",
+                lbl_lname: "Nom",
+                lbl_company: "Nom de l'Entreprise",
+                lbl_email: "Adresse Email",
+                lbl_msg: "Message",
+                btn_send_msg: "Envoyer le Message",
+                back_catalog: "Retour au Catalogue",
+                footer_desc: "Partenaire de confiance d'IKEA, Walmart et Hilton depuis 2005.",
+                footer_nav: "Naviguer",
+                footer_legal: "Légal",
+                footer_connect: "Connecter",
+                cart_title: "Liste de Demande",
+                cart_empty: "Votre liste de demande est vide.",
+                cart_help: "Ajoutez des articles à cette liste pour demander un devis en gros ou une modification personnalisée.",
+                btn_req_email: "Demander un Devis par Email",
+                // Customizer Translations
+                cust_title: "Studio de Personnalisation",
+                cust_subtitle: "Créez vos spécifications de miroir parfaites pour la fabrication.",
+                step_dims: "1. Dimensions",
+                lbl_width: "Largeur (cm)",
+                lbl_height: "Hauteur (cm)",
+                step_shape: "2. Forme",
+                shape_rect: "Rectangle",
+                shape_round: "Rond",
+                shape_capsule: "Capsule",
+                shape_oval: "Ovale",
+                step_frame: "3. Matériau du Cadre",
+                frame_none: "Sans Cadre",
+                frame_alum: "Aluminium (Noir)",
+                frame_brass: "Laiton Brossé",
+                frame_wood: "Bois Massif",
+                step_func: "4. Fonctions Intelligentes",
+                func_bt: "Audio Bluetooth",
+                func_fog: "Système Anti-buée",
+                func_rgb: "Rétroéclairage RGB",
+                func_disp: "Affichage Heure/Temp",
+                func_gest: "Contrôle Gestuel",
+                btn_add_config: "Ajouter la Configuration à la Demande",
+                // Dynamic
+                lbl_view_details: "Voir Détails",
+                lbl_model_id: "ID Modèle",
+                lbl_dims: "Dimensions",
+                lbl_moq: "Qté Min. Commande",
+                lbl_mat_feat: "Matériaux & Caractéristiques :",
+                btn_add_list: "Ajouter à la Liste",
+                btn_ask_q: "Poser une Question",
+                toast_added: "Ajouté à la liste"
+            }
+        };
+
+        function changeLanguage(lang) {
+            currentLang = lang;
+            document.getElementById('current-lang-label').innerText = lang;
+            
+            // 1. Update Static Elements
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if(translations[lang][key]) {
+                    el.innerText = translations[lang][key];
+                }
+            });
+
+            // 3. Re-render Products to update dynamic labels and categories
+            const activeCategoryBtn = document.querySelector('.filter-btn.bg-gray-900');
+            if (activeCategoryBtn) {
+                filterProducts(activeCategoryBtn.dataset.category);
+            }
+
+            // 4. Refresh grids
+            renderHomePreview(products.slice(0, 3));
+        }
+
+        function getTrans(key) {
+            return translations[currentLang][key] || key;
+        }
+
+        function getCategoryName(catCode) {
+            if (catCode === 'wall') return translations[currentLang]['cat_wall'];
+            if (catCode === 'floor') return translations[currentLang]['cat_floor'];
+            if (catCode === 'vanity') return translations[currentLang]['cat_vanity'];
+            return catCode;
+        }
+
+        // ... Product Data and Init ...
+        // Data
+        // UPDATED: Added 'images' array to support gallery view
+        let products = [
+            {
+                id: 101,
+                name: "The Halo",
+                category: "wall",
+                image: "https://images.unsplash.com/photo-1618220179428-22790b461013?q=80&w=800&auto=format&fit=crop",
+                images: [
+                    "https://images.unsplash.com/photo-1618220179428-22790b461013?q=80&w=800&auto=format&fit=crop",
+                    "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=800&auto=format&fit=crop",
+                    "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=800&auto=format&fit=crop"
+                ],
+                description: "Minimalist round frameless mirror with ambient LED backing.",
+                details: "5mm copper-free silver mirror. IP44 rated LED strip (3000K-6000K). Touch sensor dimmer.",
+                dimensions: "60cm / 80cm / 100cm Diameter",
+                moq: "50 Units"
+            },
+            {
+                id: 102,
+                name: "Gilded Arch",
+                category: "floor",
+                image: "https://images.unsplash.com/photo-1615873968403-89e068629265?q=80&w=800&auto=format&fit=crop",
+                images: [
+                    "https://images.unsplash.com/photo-1615873968403-89e068629265?q=80&w=800&auto=format&fit=crop",
+                    "https://images.unsplash.com/photo-1620626011761-996317b8d101?q=80&w=800&auto=format&fit=crop"
+                ],
+                description: "Full-length floor mirror with an antique gold leaf finish.",
+                details: "Solid wood frame with hand-applied gold leaf finish. Shatter-proof backing.",
+                dimensions: "180cm x 80cm",
+                moq: "20 Units"
+            },
+            {
+                id: 103,
+                name: "Modern Octagon",
+                category: "wall",
+                image: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=800&auto=format&fit=crop",
+                images: [
+                    "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=800&auto=format&fit=crop",
+                    "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=800&auto=format&fit=crop"
+                ],
+                description: "Geometric brass-framed mirror perfect for entryways.",
+                details: "Brushed brass metal frame. Deep-set design creates a shadow box effect.",
+                dimensions: "70cm x 70cm",
+                moq: "100 Units"
+            },
+            {
+                id: 104,
+                name: "Noir Vanity",
+                category: "vanity",
+                image: "https://images.unsplash.com/photo-1620626011761-996317b8d101?q=80&w=800&auto=format&fit=crop",
+                images: [
+                    "https://images.unsplash.com/photo-1620626011761-996317b8d101?q=80&w=800&auto=format&fit=crop"
+                ],
+                description: "Matte black bathroom mirror with anti-fog coating.",
+                details: "Aluminum alloy frame (Matte Black). Built-in defogger pad. Hardwired.",
+                dimensions: "60cm x 90cm",
+                moq: "200 Units"
+            },
+            {
+                id: 105,
+                name: "The leaning Tower",
+                category: "floor",
+                image: "https://images.unsplash.com/photo-1594912765369-24b96618f119?q=80&w=800&auto=format&fit=crop",
+                images: [
+                    "https://images.unsplash.com/photo-1594912765369-24b96618f119?q=80&w=800&auto=format&fit=crop"
+                ],
+                description: "Oversized rustic wood frame leaning mirror.",
+                details: "Reclaimed pine wood frame with natural stain. Heavy-duty construction.",
+                dimensions: "200cm x 100cm",
+                moq: "15 Units"
+            },
+            {
+                id: 106,
+                name: "Sunburst Art",
+                category: "wall",
+                image: "https://images.unsplash.com/photo-1612152668444-c192723a7854?q=80&w=800&auto=format&fit=crop",
+                images: [
+                    "https://images.unsplash.com/photo-1612152668444-c192723a7854?q=80&w=800&auto=format&fit=crop"
+                ],
+                description: "Decorative accent mirror with gold spike design.",
+                details: "Iron frame with electroplated gold finish. Central beveled mirror.",
+                dimensions: "90cm Diameter",
+                moq: "50 Units"
+            },
+            {
+                id: 107,
+                name: "Capsule Lite",
+                category: "vanity",
+                image: "https://images.unsplash.com/photo-1595515106969-1ce29566ff1c?q=80&w=800&auto=format&fit=crop",
+                images: [
+                    "https://images.unsplash.com/photo-1595515106969-1ce29566ff1c?q=80&w=800&auto=format&fit=crop"
+                ],
+                description: "Pill-shaped bathroom mirror with front-facing light.",
+                details: "Frosted edge LED lighting. Bluetooth speaker option available.",
+                dimensions: "50cm x 100cm",
+                moq: "100 Units"
+            },
+            {
+                id: 108,
+                name: "Industrial Grid",
+                category: "wall",
+                image: "https://images.unsplash.com/photo-1616046229478-9901c5536a45?q=80&w=800&auto=format&fit=crop",
+                images: [
+                    "https://images.unsplash.com/photo-1616046229478-9901c5536a45?q=80&w=800&auto=format&fit=crop"
+                ],
+                description: "Window-pane style mirror with black metal muntins.",
+                details: "Powder-coated steel grid. Perfect for loft style interiors.",
+                dimensions: "120cm x 80cm",
+                moq: "40 Units"
+            }
+        ];
+
+        // Initialization
+        function init() {
+            renderCatalog(products);
+            renderHomePreview(products.slice(0, 3));
+            updateCartUI();
+            // updateCustomPreview(); // Removed Customizer init
+        }
+
+        // Navigation / Routing System
+        function navigateTo(viewId) {
+            // Hide all views
+            document.querySelectorAll('.page-view').forEach(el => {
+                el.classList.remove('active');
+            });
+            
+            // Show selected view
+            const selectedView = document.getElementById(`view-${viewId}`);
+            if (selectedView) {
+                selectedView.classList.add('active');
+            }
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // --- STAFF PORTAL LOGIC (ENHANCED) ---
+        
+        function switchAuth(mode) {
+            // Hide all forms
+            document.getElementById('auth-form-login').classList.add('hidden');
+            document.getElementById('auth-form-register').classList.add('hidden');
+            document.getElementById('auth-form-forgot').classList.add('hidden');
+            
+            // Show selected
+            document.getElementById(`auth-form-${mode}`).classList.remove('hidden');
+            
+            // Clear inputs for security/cleanliness
+            document.querySelectorAll('#view-login input').forEach(input => input.value = '');
+        }
+
+        function handleLogin() {
+            const id = document.getElementById('login-id').value.trim();
+            const pass = document.getElementById('login-pass').value.trim();
+            
+            const user = staffUsers.find(u => u.id === id && u.pass === pass);
+            
+            if (user) {
+                showToast(`Welcome back, ${user.name}!`);
+                navigateTo('dashboard');
+                renderDashboard();
+            } else {
+                showToast("Invalid ID or Password");
+                // Shake animation effect
+                const container = document.querySelector('#auth-form-login');
+                container.classList.add('animate-pulse');
+                setTimeout(() => container.classList.remove('animate-pulse'), 200);
+            }
+        }
+
+        function handleRegister() {
+            const name = document.getElementById('reg-name').value.trim();
+            const id = document.getElementById('reg-id').value.trim();
+            const email = document.getElementById('reg-email').value.trim();
+            const pass = document.getElementById('reg-pass').value.trim();
+
+            // Simple validation
+            if (staffUsers.find(u => u.id === id)) {
+                showToast("Employee ID already exists");
+                return;
+            }
+
+            // Create user
+            staffUsers.push({ id, pass, name, email });
+            
+            showToast("Account created! Please login.");
+            switchAuth('login');
+            
+            // Pre-fill login for convenience
+            document.getElementById('login-id').value = id;
+        }
+
+        function handleForgot() {
+            const email = document.getElementById('forgot-email').value;
+            // Simulate API call
+            const btn = document.querySelector('#auth-form-forgot button');
+            const originalText = btn.innerText;
+            
+            btn.innerText = "Sending...";
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                showToast(`Reset link sent to ${email}`);
+                btn.innerText = originalText;
+                btn.disabled = false;
+                switchAuth('login');
+            }, 1500);
+        }
+
+        function handleLogout() {
+            // Clear any session data if we were using localStorage
+            navigateTo('login');
+            switchAuth('login'); // Ensure we land on login form, not register
+            showToast("Logged out successfully");
+        }
+
+        function renderDashboard() {
+            const tbody = document.getElementById('dashboard-table-body');
+            tbody.innerHTML = products.map(p => `
+                <tr class="hover:bg-gray-50 transition">
+                    <td class="p-4"><div class="h-12 w-12 rounded bg-gray-100 overflow-hidden"><img src="${p.image}" class="h-full w-full object-cover"></div></td>
+                    <td class="p-4 font-bold text-gray-900">${p.name}</td>
+                    <td class="p-4 text-sm text-gray-500 capitalize">${p.category}</td>
+                    <td class="p-4 text-sm text-gray-400">#${p.id}</td>
+                    <td class="p-4"><span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full font-bold">Active</span></td>
+                    <td class="p-4">
+                        <button onclick="deleteProduct(${p.id})" class="text-red-500 hover:text-red-700 text-sm font-bold border border-red-200 px-3 py-1 rounded hover:bg-red-50 transition">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function deleteProduct(id) {
+            if(confirm("Are you sure you want to delete this product?")) {
+                products = products.filter(p => p.id !== id);
+                renderDashboard();
+                renderCatalog(products); // Update public views too
+                showToast("Product deleted successfully");
+            }
+        }
+
+        function toggleUploadForm() {
+            const form = document.getElementById('upload-form');
+            form.classList.toggle('hidden');
+        }
+
+        async function handleProductUpload() {
+            const name = document.getElementById('prod-name').value;
+            const cat = document.getElementById('prod-cat').value;
+            const fileInput = document.getElementById('prod-img-files');
+            const desc = document.getElementById('prod-desc').value;
+            const moq = document.getElementById('prod-moq').value;
+            const details = document.getElementById('prod-details').value;
+
+            if (fileInput.files.length === 0) {
+                showToast("Please select at least one image.");
+                return;
+            }
+
+            const btn = document.querySelector('#upload-form button[type="submit"]');
+            const originalText = btn.innerText;
+            btn.innerText = "Uploading...";
+            btn.disabled = true;
+
+            // Convert images to Base64
+            const images = [];
+            for (let i = 0; i < fileInput.files.length; i++) {
+                const file = fileInput.files[i];
+                const base64 = await new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onload = (e) => resolve(e.target.result);
+                    reader.readAsDataURL(file);
+                });
+                images.push(base64);
+            }
+
+            const newProduct = {
+                id: Math.floor(Math.random() * 10000) + 200,
+                name: name,
+                category: cat,
+                image: images[0], // Main image
+                images: images, // Gallery
+                description: desc,
+                moq: moq || "Negotiable",
+                details: details || "Standard specs",
+                dimensions: "Custom",
+                quantity: 1
+            };
+
+            // Add to local array
+            products.unshift(newProduct); // Add to top
+            
+            // Refresh views
+            renderDashboard();
+            renderCatalog(products);
+            
+            // Reset form
+            toggleUploadForm();
+            document.querySelector('#upload-form form').reset();
+            btn.innerText = originalText;
+            btn.disabled = false;
+            
+            showToast("Product uploaded successfully!");
+        }
+
+        // Chatbot
+        function toggleChat() {
+            const window = document.getElementById('chat-window');
+            if (window.classList.contains('hidden')) {
+                window.classList.remove('hidden');
+                setTimeout(() => {
+                    window.classList.remove('scale-95', 'opacity-0');
+                    document.getElementById('chat-input').focus();
+                }, 10);
+            } else {
+                window.classList.add('scale-95', 'opacity-0');
+                setTimeout(() => window.classList.add('hidden'), 300);
+            }
+        }
+
+        async function sendChatMessage() {
+            const inputEl = document.getElementById('chat-input');
+            const msg = inputEl.value.trim();
+            if (!msg) return;
+
+            const chatContainer = document.getElementById('chat-messages');
+            chatContainer.innerHTML += `<div class="message user">${msg}</div>`;
+            inputEl.value = '';
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+
+            const typingId = 'typing-' + Date.now();
+            chatContainer.innerHTML += `
+                <div id="${typingId}" class="message bot typing-indicator">
+                    <span></span><span></span><span></span>
+                </div>
+            `;
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+
+            try {
+                const targetLang = langMap[currentLang] || "English";
+                const productContext = products.map(p => `${p.name} (${p.category}): ${p.description}. MOQ: ${p.moq}. Specs: ${p.details}`).join('\n');
+                
+                const systemPrompt = `You are a helpful sales assistant for BOLEN Mirrors (OEM/ODM Factory). 
+                Use this product data to answer questions: ${productContext}.
+                If asked about things not in the catalog, explain that we do custom manufacturing (ODM). 
+                We have a 25,000 sqm factory in Jiaxing, 100,000+ SKUs, and export to 120+ countries.
+                Keep answers short (under 50 words) and professional.
+                IMPORTANT: Reply in ${targetLang}.`;
+
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: msg }] }],
+                        systemInstruction: { parts: [{ text: systemPrompt }] }
+                    })
+                });
+
+                const data = await response.json();
+                const reply = data.candidates[0].content.parts[0].text;
+
+                document.getElementById(typingId).remove();
+                chatContainer.innerHTML += `<div class="message bot">${marked.parse(reply)}</div>`;
+
+            } catch (error) {
+                document.getElementById(typingId).remove();
+                chatContainer.innerHTML += `<div class="message bot text-red-500">System offline.</div>`;
+            }
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        // Standard Features
+        function showProductDetail(id) {
+            const product = products.find(p => p.id === id);
+            if (!product) return;
+
+            const images = product.images || [product.image];
+            let galleryHtml = '';
+            
+            if(images.length > 1) {
+                galleryHtml = `<div class="flex gap-2 mt-4 overflow-x-auto pb-2">
+                    ${images.map((img, idx) => `
+                        <div class="thumbnail h-20 w-20 flex-shrink-0 border border-gray-200 rounded cursor-pointer overflow-hidden ${idx === 0 ? 'active' : ''}" 
+                             onclick="changeMainImage(this, '${img}')">
+                            <img src="${img}" class="h-full w-full object-cover">
+                        </div>
+                    `).join('')}
+                </div>`;
+            }
+
+            const container = document.getElementById('detail-container');
+            // Localize Detail View
+            container.innerHTML = `
+                <div>
+                    <div class="h-[500px] bg-gray-100 rounded-lg overflow-hidden shadow-lg">
+                        <img id="main-detail-image" src="${images[0]}" class="w-full h-full object-cover" alt="${product.name}">
+                    </div>
+                    ${galleryHtml}
+                </div>
+                
+                <div>
+                    <span class="text-accent font-bold tracking-wider uppercase text-sm">${getCategoryName(product.category)} Series</span>
+                    <h1 class="text-4xl font-serif font-bold text-gray-900 mt-2 mb-4">${product.name}</h1>
+                    <p class="text-xl text-gray-600 mb-6">${product.description}</p>
+                    
+                    <div class="bg-gray-50 p-6 rounded-lg border border-gray-100 mb-8">
+                        <h3 class="font-bold mb-4">${getTrans('lbl_mat_feat')}</h3>
+                        <div class="grid grid-cols-1 gap-4 text-sm">
+                            <div class="flex justify-between border-b border-gray-200 pb-2">
+                                <span class="text-gray-500">${getTrans('lbl_model_id')}</span>
+                                <span class="font-medium">#${product.id}</span>
+                            </div>
+                            <div class="flex justify-between border-b border-gray-200 pb-2">
+                                <span class="text-gray-500">${getTrans('lbl_dims')}</span>
+                                <span class="font-medium">${product.dimensions}</span>
+                            </div>
+                            <div class="flex justify-between border-b border-gray-200 pb-2">
+                                <span class="text-gray-500">${getTrans('lbl_moq')}</span>
+                                <span class="font-medium text-accent">${product.moq}</span>
+                            </div>
+                            <div class="mt-2 text-gray-600">
+                                ${product.details}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4">
+                        <button onclick="addToCart(${product.id})" class="flex-1 bg-gray-900 text-white py-4 font-bold rounded hover:bg-accent transition shadow-lg">
+                            ${getTrans('btn_add_list')}
+                        </button>
+                        <button onclick="navigateTo('contact')" class="px-8 py-4 border border-gray-300 rounded font-bold hover:bg-gray-50 transition">
+                            ${getTrans('btn_ask_q')}
+                        </button>
+                    </div>
+                </div>
+            `;
+            navigateTo('product-detail');
+        }
+
+        function changeMainImage(thumb, src) {
+            document.getElementById('main-detail-image').src = src;
+            // Update active state
+            document.querySelectorAll('.thumbnail').forEach(el => el.classList.remove('active'));
+            thumb.classList.add('active');
+        }
+
+        function renderHomePreview(items) {
+            const grid = document.getElementById('home-product-grid');
+            grid.innerHTML = items.map(product => createProductCard(product)).join('');
+        }
+
+        function renderCatalog(items) {
+            const grid = document.getElementById('catalog-grid');
+            grid.innerHTML = items.map(product => createProductCard(product)).join('');
+        }
+
+        function createProductCard(product) {
+            const displayImage = product.images ? product.images[0] : product.image;
+            return `
+                <div class="group fade-in cursor-pointer" onclick="showProductDetail(${product.id})">
+                    <div class="relative overflow-hidden bg-gray-100 mb-4 h-80 w-full rounded-md">
+                        <img src="${displayImage}" alt="${product.name}" class="h-full w-full object-cover transform group-hover:scale-105 transition duration-700">
+                        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition duration-300"></div>
+                        <div class="absolute bottom-4 left-4 right-4 flex justify-between items-end opacity-0 group-hover:opacity-100 transition duration-300 translate-y-4 group-hover:translate-y-0">
+                            <span class="bg-white text-gray-900 text-xs font-bold px-2 py-1 rounded">${getTrans('lbl_view_details')}</span>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="text-xs text-accent uppercase tracking-wider font-bold">${getCategoryName(product.category)}</span>
+                        <h3 class="text-lg font-serif font-bold text-gray-900 mt-1 group-hover:text-accent transition">${product.name}</h3>
+                        <p class="text-sm text-gray-500 truncate">${product.description}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function filterProducts(category) {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                if(btn.dataset.category === category) {
+                    btn.classList.remove('bg-white', 'text-gray-600', 'border-gray-300');
+                    btn.classList.add('bg-gray-900', 'text-white', 'border-gray-900');
+                } else {
+                    btn.classList.add('bg-white', 'text-gray-600', 'border-gray-300');
+                    btn.classList.remove('bg-gray-900', 'text-white', 'border-gray-900');
+                }
+            });
+
+            if (category === 'all') {
+                renderCatalog(products);
+            } else {
+                const filtered = products.filter(p => p.category === category);
+                renderCatalog(filtered);
+            }
+        }
+
+        function addToCart(id) {
+            const product = products.find(p => p.id === id);
+            const existingItem = cart.find(item => item.id === id);
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                // Ensure image property exists for cart display logic
+                const displayImage = product.images ? product.images[0] : product.image;
+                cart.push({ ...product, image: displayImage, quantity: 1 });
+            }
+            updateCartUI();
+            showToast(getTrans('toast_added'));
+        }
+
+        function removeFromCart(id) {
+            cart = cart.filter(item => item.id !== id);
+            updateCartUI();
+        }
+
+        function removeFromCartString(idString) {
+            cart = cart.filter(item => item.id !== idString);
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const countEl = document.getElementById('cart-count');
+            countEl.innerText = totalItems;
+            countEl.style.opacity = totalItems > 0 ? '1' : '0';
+
+            const container = document.getElementById('cart-items-container');
+            container.innerHTML = '';
+            const emptyMsg = document.getElementById('empty-cart-msg');
+
+            if (cart.length === 0) {
+                emptyMsg.classList.remove('hidden');
+            } else {
+                emptyMsg.classList.add('hidden');
+                cart.forEach(item => {
+                    const el = document.createElement('div');
+                    el.className = 'flex gap-4';
+                    
+                    if (item.isCustom) {
+                         el.innerHTML = `
+                            <div class="h-16 w-16 flex-shrink-0 overflow-hidden rounded-md border border-accent bg-accent/10 flex items-center justify-center">
+                                <i class="fa-solid fa-wand-magic-sparkles text-accent text-xl"></i>
+                            </div>
+                            <div class="flex flex-1 flex-col justify-center">
+                                <div class="flex justify-between text-sm font-medium text-gray-900">
+                                    <h3>Custom Design</h3>
+                                    <button onclick="removeFromCartString('${item.id}')" class="text-accent hover:text-red-500"><i class="fa-solid fa-trash"></i></button>
+                                </div>
+                                <p class="text-xs text-gray-500 truncate w-40">${item.description}</p>
+                            </div>
+                        `;
+                    } else {
+                        const displayImage = item.image || (item.images ? item.images[0] : '');
+                        el.innerHTML = `
+                            <div class="h-16 w-16 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+                                <img src="${displayImage}" alt="${item.name}" class="h-full w-full object-cover">
+                            </div>
+                            <div class="flex flex-1 flex-col justify-center">
+                                <div class="flex justify-between text-sm font-medium text-gray-900">
+                                    <h3>${item.name}</h3>
+                                    <button onclick="removeFromCart(${item.id})" class="text-accent hover:text-red-500"><i class="fa-solid fa-trash"></i></button>
+                                </div>
+                                <p class="text-xs text-gray-500">Qty: ${item.quantity} | ID: #${item.id}</p>
+                            </div>
+                        `;
+                    }
+                    container.appendChild(el);
+                });
+            }
+        }
+
+        function toggleCart() {
+            const modal = document.getElementById('cart-modal');
+            const panel = document.getElementById('cart-panel');
+            if (modal.classList.contains('hidden')) {
+                modal.classList.remove('hidden');
+                setTimeout(() => panel.classList.remove('translate-x-full'), 10);
+                document.body.style.overflow = 'hidden';
+            } else {
+                panel.classList.add('translate-x-full');
+                setTimeout(() => modal.classList.add('hidden'), 300);
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        function sendInquiry() {
+            if (cart.length === 0) {
+                showToast(getTrans('cart_empty'));
+                return;
+            }
+            let body = "Hello BOLEN Team,\n\nI am interested in a quote for:\n\n";
+            
+            cart.forEach(item => {
+                if (item.isCustom) {
+                    body += `\n[CUSTOM DESIGN REQUEST]\nConcept: ${item.description}\nSpecifications Generated:\n${item.specs}\n-----------------------------------\n`;
+                } else {
+                    body += `- ${item.name} (ID: ${item.id}, Qty: ${item.quantity})\n`;
+                }
+            });
+            
+            body += "\nPlease contact me with details.\n\nRegards,";
+            
+            const mailtoLink = `mailto:sales@bolenmirror.com?subject=Bulk Inquiry&body=${encodeURIComponent(body)}`;
+            
+            const link = document.createElement('a');
+            link.href = mailtoLink;
+            link.target = '_blank'; 
+            link.rel = 'noopener noreferrer';
+            link.style.display = 'none';
+            document.body.appendChild(link);
+            link.click();
+            setTimeout(() => {
+                document.body.removeChild(link);
+            }, 100);
+
+            showToast("Opening email client...");
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-message').innerText = msg;
+            toast.classList.remove('opacity-0', 'translate-y-5');
+            setTimeout(() => toast.classList.add('opacity-0', 'translate-y-5'), 3000);
+        }
+
+        // Start
+        init();
+
+    </script>
+</body>
+</html>
