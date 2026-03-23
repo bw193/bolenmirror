@@ -159,6 +159,15 @@
         .thumbnail:hover {
             opacity: 1;
         }
+        .promo-slide {
+            opacity: 0;
+            transition: opacity 0.8s ease;
+            pointer-events: none;
+        }
+        .promo-slide.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
     </style>
 </head>
 <body class="text-gray-800 bg-white antialiased relative flex flex-col min-h-screen">
@@ -181,6 +190,7 @@
                     <button onclick="navigateTo('catalog')" class="nav-link text-gray-600 hover:text-accent transition font-medium" data-i18n="nav_catalog">Catalog</button>
                     <button onclick="navigateTo('about')" class="nav-link text-gray-600 hover:text-accent transition font-medium" data-i18n="nav_about">About Factory</button>
                     <button onclick="navigateTo('contact')" class="nav-link text-gray-600 hover:text-accent transition font-medium" data-i18n="nav_contact">Contact</button>
+                    <button onclick="navigateTo('login')" class="nav-link text-gray-600 hover:text-accent transition font-medium" data-i18n="nav_employee">Employee Login</button>
                 </div>
 
                 <!-- Icons & Language -->
@@ -217,6 +227,7 @@
                 <button onclick="navigateTo('catalog'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 text-gray-600 hover:bg-gray-50 hover:text-accent" data-i18n="nav_catalog">Catalog</button>
                 <button onclick="navigateTo('about'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 text-gray-600 hover:bg-gray-50 hover:text-accent" data-i18n="nav_about">About Factory</button>
                 <button onclick="navigateTo('contact'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 text-gray-600 hover:bg-gray-50 hover:text-accent" data-i18n="nav_contact">Contact</button>
+                <button onclick="navigateTo('login'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 text-gray-600 hover:bg-gray-50 hover:text-accent" data-i18n="nav_employee">Employee Login</button>
                 
                 <!-- Mobile Language Switch -->
                 <div class="border-t border-gray-100 mt-2 pt-2">
@@ -236,28 +247,75 @@
         
         <!-- VIEW: HOME -->
         <div id="view-home" class="page-view active fade-in">
-            <!-- Hero Section -->
-            <section class="relative h-[80vh] flex items-center justify-center overflow-hidden">
-                <div class="absolute inset-0 z-0">
-                    <!-- Using uploaded image -->
-                    <img src="新厂房.jpg" 
-                         onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=2000&auto=format&fit=crop';" 
-                         alt="BOLEN Factory Building" 
-                         class="w-full h-full object-cover">
-                    <div class="absolute inset-0 bg-black/40"></div>
+            <!-- Hero Promotions Carousel -->
+            <section class="relative h-[80vh] overflow-hidden bg-gray-900">
+                <div id="promo-carousel" class="absolute inset-0">
+                    <article class="promo-slide active absolute inset-0">
+                        <img src="新厂房.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=2000&auto=format&fit=crop';" alt="BOLEN Factory Building" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-black/45"></div>
+                        <div class="relative z-10 h-full flex items-center justify-center text-center px-4">
+                            <div class="max-w-3xl text-white">
+                                <span class="inline-block border border-white/30 px-4 py-1 text-xs tracking-[0.2em] uppercase mb-5" data-i18n="promo_tag_1">Factory Promotion</span>
+                                <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight drop-shadow-2xl" data-i18n="hero_title">Reflecting Excellence Since 2005</h1>
+                                <p class="text-lg md:text-2xl mb-8 font-light opacity-95 drop-shadow-lg" data-i18n="promo_desc_1">Book April production slots now and lock dedicated line planning for OEM/ODM programs.</p>
+                                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                                    <button onclick="navigateTo('catalog')" class="bg-white text-gray-900 px-8 py-4 font-serif font-semibold tracking-wide hover:bg-accent hover:text-white transition duration-300 shadow-xl" data-i18n="btn_view_catalog">View Catalog</button>
+                                    <button onclick="navigateTo('contact')" class="bg-accent text-white px-8 py-4 font-serif font-semibold tracking-wide hover:bg-white hover:text-gray-900 transition duration-300 shadow-xl" data-i18n="btn_get_quote">Get a Quote</button>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="promo-slide absolute inset-0">
+                        <img src="https://images.unsplash.com/photo-1604014237800-1c9102c219da?q=80&w=2000&auto=format&fit=crop" alt="LED Mirror Promotion" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-black/45"></div>
+                        <div class="relative z-10 h-full flex items-center justify-center text-center px-4">
+                            <div class="max-w-3xl text-white">
+                                <span class="inline-block border border-white/30 px-4 py-1 text-xs tracking-[0.2em] uppercase mb-5" data-i18n="promo_tag_2">New Program</span>
+                                <h2 class="text-4xl md:text-6xl font-bold mb-6 leading-tight drop-shadow-2xl" data-i18n="promo_title_2">Hotel & Apartment Mirror Program</h2>
+                                <p class="text-lg md:text-2xl mb-8 font-light opacity-95 drop-shadow-lg" data-i18n="promo_desc_2">Smart anti-fog + touch-control bundles available with private label packaging and safety certifications.</p>
+                                <button onclick="navigateTo('contact')" class="bg-accent text-white px-8 py-4 font-serif font-semibold tracking-wide hover:bg-white hover:text-gray-900 transition duration-300 shadow-xl" data-i18n="btn_request_sample">Request Samples</button>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="promo-slide absolute inset-0">
+                        <img src="https://images.unsplash.com/photo-1615874959474-d609969a20ed?q=80&w=2000&auto=format&fit=crop" alt="BOLEN Export Program" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-black/45"></div>
+                        <div class="relative z-10 h-full flex items-center justify-center text-center px-4">
+                            <div class="max-w-3xl text-white">
+                                <span class="inline-block border border-white/30 px-4 py-1 text-xs tracking-[0.2em] uppercase mb-5" data-i18n="promo_tag_3">Export Ready</span>
+                                <h2 class="text-4xl md:text-6xl font-bold mb-6 leading-tight drop-shadow-2xl" data-i18n="promo_title_3">Fast Sampling & Stable Lead Times</h2>
+                                <p class="text-lg md:text-2xl mb-8 font-light opacity-95 drop-shadow-lg" data-i18n="promo_desc_3">7-10 day prototypes, QC checkpoints, and global logistics support for wholesale distributors.</p>
+                                <button onclick="navigateTo('about')" class="bg-white text-gray-900 px-8 py-4 font-serif font-semibold tracking-wide hover:bg-accent hover:text-white transition duration-300 shadow-xl" data-i18n="btn_view_factory">View Factory Capacity</button>
+                            </div>
+                        </div>
+                    </article>
                 </div>
-                <div class="relative z-10 text-center text-white px-4 max-w-3xl">
-                    <!-- Hero Text in White with Shadow -->
-                    <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight text-white drop-shadow-2xl filter" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.8);" data-i18n="hero_title">Reflecting Excellence Since 2005</h1>
-                    
-                    <p class="text-lg md:text-2xl mb-8 font-light opacity-95 drop-shadow-lg text-white" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.8);" data-i18n="hero_subtitle">
-                        Your Global OEM/ODM Partner for Premium Residential & Commercial Mirror Solutions.
-                    </p>
-                    
-                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                        <button onclick="navigateTo('catalog')" class="bg-white text-gray-900 px-8 py-4 font-serif font-semibold tracking-wide hover:bg-accent hover:text-white transition duration-300 shadow-xl" data-i18n="btn_view_catalog">
-                            View Catalog
-                        </button>
+                <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-3">
+                    <button onclick="setPromoSlide(0)" class="h-2.5 w-8 rounded-full bg-white/90" data-promo-dot="0" aria-label="Promotion slide 1"></button>
+                    <button onclick="setPromoSlide(1)" class="h-2.5 w-8 rounded-full bg-white/40" data-promo-dot="1" aria-label="Promotion slide 2"></button>
+                    <button onclick="setPromoSlide(2)" class="h-2.5 w-8 rounded-full bg-white/40" data-promo-dot="2" aria-label="Promotion slide 3"></button>
+                </div>
+            </section>
+
+            <section class="py-12 bg-white border-b border-gray-100">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+                        <div class="p-5 bg-gray-50 rounded-xl">
+                            <p class="text-3xl font-bold text-gray-900">25,000㎡</p>
+                            <p class="text-sm text-gray-500 mt-1" data-i18n="stat_factory">Self-owned factory</p>
+                        </div>
+                        <div class="p-5 bg-gray-50 rounded-xl">
+                            <p class="text-3xl font-bold text-gray-900">100,000+</p>
+                            <p class="text-sm text-gray-500 mt-1" data-i18n="stat_skus">Mirror SKUs</p>
+                        </div>
+                        <div class="p-5 bg-gray-50 rounded-xl">
+                            <p class="text-3xl font-bold text-gray-900">120+</p>
+                            <p class="text-sm text-gray-500 mt-1" data-i18n="stat_markets">Export markets</p>
+                        </div>
+                        <div class="p-5 bg-gray-50 rounded-xl">
+                            <p class="text-3xl font-bold text-gray-900">24h</p>
+                            <p class="text-sm text-gray-500 mt-1" data-i18n="stat_response">Typical sales response</p>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -611,28 +669,60 @@
 
                     <div class="bg-white p-8 shadow-lg rounded-xl border border-gray-100">
                         <h3 class="text-2xl font-bold mb-6" data-i18n="form_title">Send an Inquiry</h3>
-                        <form onsubmit="event.preventDefault(); showToast('Message sent!');" class="space-y-4">
+                        <form id="contact-form" onsubmit="event.preventDefault(); handleContactForm();" class="space-y-4">
                             <div class="grid grid-cols-2 gap-4">
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1" data-i18n="lbl_fname">First Name</label>
-                                    <input type="text" class="w-full bg-gray-50 border border-gray-200 rounded p-3 focus:outline-none focus:border-accent" required>
+                                    <input id="contact-first-name" type="text" class="w-full bg-gray-50 border border-gray-200 rounded p-3 focus:outline-none focus:border-accent" required>
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1" data-i18n="lbl_lname">Last Name</label>
-                                    <input type="text" class="w-full bg-gray-50 border border-gray-200 rounded p-3 focus:outline-none focus:border-accent" required>
+                                    <input id="contact-last-name" type="text" class="w-full bg-gray-50 border border-gray-200 rounded p-3 focus:outline-none focus:border-accent" required>
                                 </div>
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1" data-i18n="lbl_company">Company Name</label>
-                                <input type="text" class="w-full bg-gray-50 border border-gray-200 rounded p-3 focus:outline-none focus:border-accent">
+                                <input id="contact-company" type="text" class="w-full bg-gray-50 border border-gray-200 rounded p-3 focus:outline-none focus:border-accent" required>
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1" data-i18n="lbl_email">Email Address</label>
-                                <input type="email" class="w-full bg-gray-50 border border-gray-200 rounded p-3 focus:outline-none focus:border-accent" required>
+                                <input id="contact-email" type="email" class="w-full bg-gray-50 border border-gray-200 rounded p-3 focus:outline-none focus:border-accent" required>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1" data-i18n="lbl_phone">Phone / WhatsApp</label>
+                                    <input id="contact-phone" type="text" class="w-full bg-gray-50 border border-gray-200 rounded p-3 focus:outline-none focus:border-accent">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1" data-i18n="lbl_country">Target Market</label>
+                                    <input id="contact-country" type="text" class="w-full bg-gray-50 border border-gray-200 rounded p-3 focus:outline-none focus:border-accent" placeholder="US / EU / Middle East">
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1" data-i18n="lbl_volume">Estimated Annual Volume</label>
+                                    <select id="contact-volume" class="w-full bg-gray-50 border border-gray-200 rounded p-3 focus:outline-none focus:border-accent">
+                                        <option value="" data-i18n="vol_select">Select volume</option>
+                                        <option value="< 1,000 pcs">< 1,000 pcs</option>
+                                        <option value="1,000 - 5,000 pcs">1,000 - 5,000 pcs</option>
+                                        <option value="5,000 - 20,000 pcs">5,000 - 20,000 pcs</option>
+                                        <option value="20,000+ pcs">20,000+ pcs</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1" data-i18n="lbl_timeline">Purchase Timeline</label>
+                                    <select id="contact-timeline" class="w-full bg-gray-50 border border-gray-200 rounded p-3 focus:outline-none focus:border-accent">
+                                        <option value="" data-i18n="timeline_select">Select timeline</option>
+                                        <option value="Immediate (within 1 month)">Immediate (within 1 month)</option>
+                                        <option value="1 - 3 months">1 - 3 months</option>
+                                        <option value="3 - 6 months">3 - 6 months</option>
+                                        <option value="Exploring options">Exploring options</option>
+                                    </select>
+                                </div>
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1" data-i18n="lbl_msg">Message</label>
-                                <textarea rows="4" class="w-full bg-gray-50 border border-gray-200 rounded p-3 focus:outline-none focus:border-accent"></textarea>
+                                <textarea id="contact-message" rows="4" class="w-full bg-gray-50 border border-gray-200 rounded p-3 focus:outline-none focus:border-accent" placeholder="Mirror type, dimensions, certifications, packaging or private label requirements..." required></textarea>
                             </div>
                             <button class="w-full bg-gray-900 text-white font-bold py-4 hover:bg-accent transition duration-300" data-i18n="btn_send_msg">
                                 Send Message
@@ -790,6 +880,8 @@
         // Global State
         let cart = [];
         let currentLang = 'en';
+        let promoSlideIndex = 0;
+        let promoTimer = null;
         const langMap = {
             en: "English",
             zh: "Chinese (Simplified)",
@@ -809,11 +901,26 @@
                 nav_customizer: "Customizer",
                 nav_about: "About Factory",
                 nav_contact: "Contact",
+                nav_employee: "Employee Login",
                 hero_title: "Reflecting Excellence Since 2005",
                 hero_subtitle: "Your Global OEM/ODM Partner for Premium Residential & Commercial Mirror Solutions.",
+                promo_tag_1: "Factory Promotion",
+                promo_desc_1: "Book April production slots now and lock dedicated line planning for OEM/ODM programs.",
+                promo_tag_2: "New Program",
+                promo_title_2: "Hotel & Apartment Mirror Program",
+                promo_desc_2: "Smart anti-fog + touch-control bundles available with private label packaging and safety certifications.",
+                promo_tag_3: "Export Ready",
+                promo_title_3: "Fast Sampling & Stable Lead Times",
+                promo_desc_3: "7-10 day prototypes, QC checkpoints, and global logistics support for wholesale distributors.",
                 btn_view_catalog: "View Catalog",
                 btn_get_quote: "Get a Quote",
+                btn_request_sample: "Request Samples",
+                btn_view_factory: "View Factory Capacity",
                 btn_start_custom: "Start Customizing",
+                stat_factory: "Self-owned factory",
+                stat_skus: "Mirror SKUs",
+                stat_markets: "Export markets",
+                stat_response: "Typical sales response",
                 why_choose_us: "Why Choose BOLEN?",
                 feat_odm_title: "Custom Design (ODM)",
                 feat_odm_desc: "Professional R&D team providing customized services.",
@@ -856,8 +963,15 @@
                 lbl_lname: "Last Name",
                 lbl_company: "Company Name",
                 lbl_email: "Email Address",
+                lbl_phone: "Phone / WhatsApp",
+                lbl_country: "Target Market",
+                lbl_volume: "Estimated Annual Volume",
+                lbl_timeline: "Purchase Timeline",
+                vol_select: "Select volume",
+                timeline_select: "Select timeline",
                 lbl_msg: "Message",
                 btn_send_msg: "Send Message",
+                toast_contact_ready: "Opening your email client with the inquiry details...",
                 back_catalog: "Back to Catalog",
                 footer_desc: "Trusted by IKEA, Walmart & Hilton since 2005.",
                 footer_nav: "Navigate",
@@ -906,11 +1020,26 @@
                 nav_customizer: "定制工作室",
                 nav_about: "工厂简介",
                 nav_contact: "联系我们",
+                nav_employee: "员工登录",
                 hero_title: "映照卓越品质 - 始于2005",
                 hero_subtitle: "您的高端住宅与商业镜子解决方案全球 OEM/ODM 合作伙伴。",
+                promo_tag_1: "工厂促销",
+                promo_desc_1: "立即预订四月产线档期，锁定 OEM/ODM 专属生产安排。",
+                promo_tag_2: "新品项目",
+                promo_title_2: "酒店与公寓镜子项目",
+                promo_desc_2: "防雾+触控智能镜组合，支持私标包装与多项安全认证。",
+                promo_tag_3: "出口就绪",
+                promo_title_3: "快速打样与稳定交期",
+                promo_desc_3: "7-10天打样、全流程质检与全球物流支持，助力批发分销商。",
                 btn_view_catalog: "查看目录",
                 btn_get_quote: "获取报价",
+                btn_request_sample: "申请样品",
+                btn_view_factory: "查看工厂产能",
                 btn_start_custom: "开始定制",
+                stat_factory: "自有厂房",
+                stat_skus: "镜子SKU",
+                stat_markets: "出口市场",
+                stat_response: "销售典型响应时间",
                 why_choose_us: "为什么选择 BOLEN?",
                 feat_odm_title: "定制设计 (ODM)",
                 feat_odm_desc: "专业的研发团队，提供定制服务。",
@@ -953,8 +1082,15 @@
                 lbl_lname: "姓氏",
                 lbl_company: "公司名称",
                 lbl_email: "邮箱地址",
+                lbl_phone: "电话 / WhatsApp",
+                lbl_country: "目标市场",
+                lbl_volume: "预计年采购量",
+                lbl_timeline: "采购时间计划",
+                vol_select: "选择采购量",
+                timeline_select: "选择时间计划",
                 lbl_msg: "留言内容",
                 btn_send_msg: "发送留言",
+                toast_contact_ready: "正在打开邮件客户端并填充询盘信息...",
                 back_catalog: "返回目录",
                 footer_desc: "自2005年以来，宜家、沃尔玛和希尔顿的信赖合作伙伴。",
                 footer_nav: "导航",
@@ -1003,11 +1139,26 @@
                 nav_customizer: "Personnaliser",
                 nav_about: "L'Usine",
                 nav_contact: "Contact",
+                nav_employee: "Connexion Employé",
                 hero_title: "Le Reflet de l'Excellence Depuis 2005",
                 hero_subtitle: "Votre Partenaire Mondial OEM/ODM pour des Solutions de Miroirs Résidentiels et Commerciaux Haut de Gamme.",
+                promo_tag_1: "Promotion Usine",
+                promo_desc_1: "Réservez vos créneaux de production d'avril pour sécuriser une ligne dédiée OEM/ODM.",
+                promo_tag_2: "Nouveau Programme",
+                promo_title_2: "Programme Miroirs Hôtellerie & Résidentiel",
+                promo_desc_2: "Kits anti-buée + contrôle tactile disponibles avec packaging marque privée et certifications.",
+                promo_tag_3: "Prêt à l'Export",
+                promo_title_3: "Échantillonnage Rapide & Délais Stables",
+                promo_desc_3: "Prototypes sous 7-10 jours, étapes QC, et support logistique mondial pour distributeurs.",
                 btn_view_catalog: "Voir le Catalogue",
                 btn_get_quote: "Obtenir un Devis",
+                btn_request_sample: "Demander des Échantillons",
+                btn_view_factory: "Voir la Capacité Usine",
                 btn_start_custom: "Commencer à Personnaliser",
+                stat_factory: "Usine en propre",
+                stat_skus: "SKU miroirs",
+                stat_markets: "Marchés d'export",
+                stat_response: "Délai de réponse commercial",
                 why_choose_us: "Pourquoi Choisir BOLEN ?",
                 feat_odm_title: "Design Personnalisé (ODM)",
                 feat_odm_desc: "Équipe R&D professionnelle offrant des services sur mesure.",
@@ -1050,8 +1201,15 @@
                 lbl_lname: "Nom",
                 lbl_company: "Nom de l'Entreprise",
                 lbl_email: "Adresse Email",
+                lbl_phone: "Téléphone / WhatsApp",
+                lbl_country: "Marché Cible",
+                lbl_volume: "Volume Annuel Estimé",
+                lbl_timeline: "Calendrier d'Achat",
+                vol_select: "Sélectionner le volume",
+                timeline_select: "Sélectionner le délai",
                 lbl_msg: "Message",
                 btn_send_msg: "Envoyer le Message",
+                toast_contact_ready: "Ouverture de votre client email avec la demande...",
                 back_catalog: "Retour au Catalogue",
                 footer_desc: "Partenaire de confiance d'IKEA, Walmart et Hilton depuis 2005.",
                 footer_nav: "Naviguer",
@@ -1248,7 +1406,33 @@
             renderCatalog(products);
             renderHomePreview(products.slice(0, 3));
             updateCartUI();
+            startPromoRotation();
             // updateCustomPreview(); // Removed Customizer init
+        }
+
+        function setPromoSlide(index) {
+            const slides = document.querySelectorAll('.promo-slide');
+            const dots = document.querySelectorAll('[data-promo-dot]');
+            if (!slides.length) return;
+            promoSlideIndex = (index + slides.length) % slides.length;
+
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === promoSlideIndex);
+            });
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('bg-white/90', i === promoSlideIndex);
+                dot.classList.toggle('bg-white/40', i !== promoSlideIndex);
+            });
+        }
+
+        function nextPromoSlide() {
+            setPromoSlide(promoSlideIndex + 1);
+        }
+
+        function startPromoRotation() {
+            setPromoSlide(0);
+            if (promoTimer) clearInterval(promoTimer);
+            promoTimer = setInterval(nextPromoSlide, 4500);
         }
 
         // Navigation / Routing System
@@ -1749,6 +1933,33 @@
             }, 100);
 
             showToast("Opening email client...");
+        }
+
+        function handleContactForm() {
+            const firstName = document.getElementById('contact-first-name').value.trim();
+            const lastName = document.getElementById('contact-last-name').value.trim();
+            const company = document.getElementById('contact-company').value.trim();
+            const email = document.getElementById('contact-email').value.trim();
+            const phone = document.getElementById('contact-phone').value.trim();
+            const country = document.getElementById('contact-country').value.trim();
+            const volume = document.getElementById('contact-volume').value.trim();
+            const timeline = document.getElementById('contact-timeline').value.trim();
+            const message = document.getElementById('contact-message').value.trim();
+
+            let body = "Hello BOLEN Team,%0D%0A%0D%0A";
+            body += "I would like to request a quotation for LED mirror products.%0D%0A%0D%0A";
+            body += `Contact: ${encodeURIComponent(firstName)} ${encodeURIComponent(lastName)}%0D%0A`;
+            body += `Company: ${encodeURIComponent(company)}%0D%0A`;
+            body += `Email: ${encodeURIComponent(email)}%0D%0A`;
+            body += `Phone/WhatsApp: ${encodeURIComponent(phone || 'N/A')}%0D%0A`;
+            body += `Target Market: ${encodeURIComponent(country || 'N/A')}%0D%0A`;
+            body += `Estimated Annual Volume: ${encodeURIComponent(volume || 'N/A')}%0D%0A`;
+            body += `Purchase Timeline: ${encodeURIComponent(timeline || 'N/A')}%0D%0A%0D%0A`;
+            body += `Project Details:%0D%0A${encodeURIComponent(message)}%0D%0A%0D%0ARegards,`;
+
+            window.location.href = `mailto:sales@bolenmirror.com?subject=B2B%20LED%20Mirror%20Inquiry%20-%20${encodeURIComponent(company)}&body=${body}`;
+            showToast(getTrans('toast_contact_ready'));
+            document.getElementById('contact-form').reset();
         }
 
         function toggleMobileMenu() {
